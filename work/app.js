@@ -2,10 +2,9 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
-
 const express = require("express");
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const path = require("path");
 const mongoose = require("mongoose");
 const methodOverride = require('method-override');
@@ -18,6 +17,7 @@ const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
+const secret = process.env.SECRET_KEY;
 
 // --------- Main Routes (Router) --------------------
 const userRoutes = require('./routes/users');
@@ -25,12 +25,14 @@ const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
 
 //----------- mongoose setup ----------------------------------
-mongoose.connect("mongodb://localhost:27017/yelp-camp", {
+const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/yelp-camp"; // cloud database || local database
+
+mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
-});
+})
 
 const db = mongoose.connection;
 db.on("error", console.log.bind(console, "connection error!"));
@@ -38,9 +40,7 @@ db.once("open", () => {
   console.log("Database connected");
 });
 
-//-----------------------------------------------------------
-
-// ------- views/ejs ----------------------
+// ----------------- views/ejs ---------------------------------
 app.engine('ejs', ejsMate);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -49,16 +49,28 @@ app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// ------------------ mongoStore for sessions ----------------------
+const MongoStore = require('connect-mongo');
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  secret: secret,
+  touchAfter: 24 * 60 * 60, // To not to save unneccessary data when user refresh the page (sec)
+})
+store.on('error', function (e){
+  console.log('SESSION STORE ERROR!', e);
+})
+
 const sessionConfig = {
+  store,
   name: 'session',
-  secret: `${process.env.SECRET_KEY}`,
+  secret: secret,
   resave: false,
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
-    secure:true,
-    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-    maxAge: 1000 * 60 * 60 * 24 * 7,
+    //secure: true, // if set true flash messages won't work
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7, // (msec)
+    maxAge: 1000 * 60 * 60 * 24 * 7, //(msec)
   }
 }
 app.use(session(sessionConfig))
@@ -159,51 +171,13 @@ app.use((err, req, res, next) => {
 })
 
 app.listen(port, (req, res) => {
-  console.log("listening to http://localhost:" + `${port}`);
+  console.log("serving on http://localhost:" + `${port}`);
 });
 
 /*
-Note: Database is inserted from index.js file inside seeds directory
+Note: For localhost Database is inserted from index.js file inside seeds directory
 */
 
 // for image dataset
 // https://source.unsplash.com/collection/455545
 
-/*
-const campgroundSchema = Joi.object({
-    campground: Joi.object({
-      title: Joi.string().required(),
-      price: Joi.number().required().min(0),
-      image: Joi.string().required(),
-      location: Joi.string().required(),
-      descriptiom: Joi.string().required()
-    }).required()
-  })
-  const {error} = campgroundSchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map(ele => ele.message).join(',')
-    throw new ExpressError(msg, 400);
-  }
- */
-
-
- //------------ middleware -------------------------------------
-// const validateCampground = (req, res, next) => {
-//   const { error } = campgroundSchema.validate(req.body);
-//   if (error) {
-//     const msg = error.details.map(ele => ele.message).join(',')
-//     throw new ExpressError(msg, 400);
-//   } else {
-//     next();
-//   }
-// }
-
-// const validateReview = (req, res, next) => {
-//   const { error } = reviewSchema.validate(req.body);
-//   if (error) {
-//     const msg = error.details.map(ele => ele.message).join(',')
-//     throw new ExpressError(msg, 400);
-//   } else {
-//     next();
-//   }
-// }

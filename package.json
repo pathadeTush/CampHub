@@ -1,10 +1,11 @@
 {
-  "name": "yelpcamp-project",
+  "name": "camphub",
   "version": "1.0.0",
-  "description": "Yelcamp Project",
+  "description": "CampHub Project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node work/app.js"
   },
   "author": "Tushar Pathade",
   "license": "ISC",
@@ -12,6 +13,7 @@
     "@mapbox/mapbox-sdk": "^0.13.0",
     "cloudinary": "^1.26.2",
     "connect-flash": "^0.1.1",
+    "connect-mongo": "^4.4.1",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "ejs-mate": "^3.0.0",

@@ -12,7 +12,7 @@
   - Syntax: `npm install`
 
 - **Run the program (First go to project directory and then run)**
-  - Syntax: `cd work` `nodemon app.js`
+  - Syntax: `npm start`
   
 - **Then paste the below url in browser**
   - `http://localhost:3000`

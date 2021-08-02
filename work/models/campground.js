@@ -54,7 +54,7 @@ CampgroundSchema.virtual('properties.popupMarkup').get(function () {
 
 // in post middleware we have access to data that has been deleted
 CampgroundSchema.post('findOneAndDelete', async function (doc) {
-  console.log('Campground item Deleted!!!')
+  //console.log('Campground item Deleted!!!')
   if (doc) {
     await reviews.deleteMany({
       _id: {

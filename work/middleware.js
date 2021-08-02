@@ -49,6 +49,6 @@ module.exports.isReviewAuthor = async (req, res, next) => {
         req.flash('error', 'You do not have permission!');
         return res.redirect(`/campgrounds/${id}`);
     }
-    console.log('review deleted!')
+   // console.log('review deleted!')
     next();
 }
