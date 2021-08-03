@@ -11,7 +11,7 @@
 - **Install dependencies**
   - Syntax: `npm install`
 
-- **Run the program (First go to project directory and then run)**
+- **Run the program**
   - Syntax: `npm start`
   
 - **Then paste the below url in browser**
