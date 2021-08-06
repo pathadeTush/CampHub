@@ -1,4 +1,4 @@
-//mapboxgl.accessToken = mapToken;
+mapboxgl.accessToken = mapToken;
 const map = new mapboxgl.Map({
     container: 'cluster-map',
     style: 'mapbox://styles/mapbox/outdoors-v10', // theme : ['streets', 'light', 'dark', 'outdoors', 'satellite'] 

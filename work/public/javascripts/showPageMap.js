@@ -1,4 +1,4 @@
-//mapboxgl.accessToken = mapToken; // define in show.ejs file
+mapboxgl.accessToken = mapToken; // define in show.ejs file
 const map = new mapboxgl.Map({
     container: 'map', // container ID
     style: 'mapbox://styles/mapbox/streets-v11', // style URL
