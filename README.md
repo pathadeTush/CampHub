@@ -1,5 +1,6 @@
 # CampHub
 
+### Project is hosted on live. [view demo](https://camphub21.herokuapp.com)
 ### An end-to-end Web Application which helps to find best suitable place for camping. 
 
 ### Steps to run:
