@@ -15,5 +15,5 @@
 - **Run the program**
   - Syntax: `npm start`
   
-- **Then paste the below url in browser**
+- **OR paste the below url in browser**
   - `http://localhost:3000`
