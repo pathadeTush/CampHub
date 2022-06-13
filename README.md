@@ -7,13 +7,13 @@
 
 - **Download OR Clone the code.**
   - **Colne the repo**
-  - Syntax: `git clone https://github.com/pathadeTush/CampHub.git`
+  - `git clone https://github.com/pathadeTush/CampHub.git`
 
 - **Install dependencies**
-  - Syntax: `npm install`
+  - `npm install`
 
 - **Run the program**
-  - Syntax: `npm start`
+  - `npm start`
   
 - **OR paste the below url in browser**
   - `http://localhost:3000`
